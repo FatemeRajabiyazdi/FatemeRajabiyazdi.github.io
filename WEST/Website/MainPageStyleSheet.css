@@ -1,0 +1,193 @@
+﻿		g.radar .series polygon {
+			/*stroke-width: 2px;*/
+		}
+
+		g.radar .xaxes line {
+			stroke: grey;
+			stroke-width: 1px;
+		}
+
+		g.radar .yaxes polygon {
+			stroke: grey;
+			stroke-width: 1px;
+		}
+
+		g.radar .xaxisLabels {
+			stroke: grey;
+		}
+
+		g.radar .yaxisLabels {
+			stroke: grey;
+			font-size: 13px;
+		}
+
+
+		select, option, body {
+			background-color: #333333;
+			color: whitesmoke;
+		}
+		
+		text {
+			fill: whitesmoke;
+		}
+		
+		g.mapLinks  path {
+			stroke: whitesmoke;
+		}
+
+		g.mapArcs > path, #BtnCompare {
+			cursor: pointer;
+			cursor: hand;
+
+		}
+		
+		#parent1, #parent2 {
+			margin-right: 10px;
+			margin-top: 10px;
+		}
+
+		#parent2 {
+			width: 200px;
+		}
+
+			#parent2 > div {
+				margin-bottom: 15px;
+				margin-left: 10px;
+			}
+
+		input {
+			margin-top: 5px;
+		}
+
+		#title {
+			/*font-size: 22px;*/
+			font-family: 'Helvetica Neue';
+			font-weight: bold;
+			margin-left: 10px;
+		}
+
+		h1 {
+			font-size:20px;
+			margin-top: 12px;
+			padding-top: 0px;
+		}
+
+		#buttons {
+			align-items: flex-end;
+			font-size: 10px;
+			margin-left: 10px;
+		}
+
+		.dropMenu {
+			margin-left: 20px;
+		}
+
+		.surgeryOption {
+			font-size: 20px;
+		}
+
+		body {
+			font-family: 'Segoe UI', 'Helvetica';
+			top: 10px;
+			margin: 0px;
+			padding: 0px;
+		}
+
+		.axis line {
+			stroke: #7f7f7f;
+			shape-rendering: crispEdges;
+		}
+
+		.axis2 line {
+			stroke: #7f7f7f;
+			shape-rendering: crispEdges;
+		}
+
+		.axis2 text, .axis text {
+			font-size: 11px;
+		}
+
+
+		.bar:hover {
+			fill: orangered;
+		}
+
+		.d3-tip {
+			line-height: 1;
+			font-family: Helvetica;
+			/*font-weight: bold;*/
+			padding: 6px;
+			background: #6c6a6a;
+			color: white;
+			font-size: 12px;
+			border-radius: 2px;
+		}
+
+			/* Creates a small triangle extender for the tooltip */
+			.d3-tip:after {
+				box-sizing: border-box;
+				display: inline;
+				font-size: 8px;
+				width: 100%;
+				line-height: 1;
+				color: rgba(0, 0, 0, 0);
+				content: "\25BC";
+				position: absolute;
+				text-align: center;
+			}
+
+			/* Style northward tooltips differently */
+			.d3-tip.n:after {
+				margin: -1px 0 0 0;
+				top: 100%;
+				left: 0;
+			}
+
+		.barChart .tick {
+			font-size: 10.5px;
+		}
+
+		.domain {
+			fill: none;
+			stroke: gray;
+			stroke-width: 1px;
+		}
+
+		svg > g {
+			background: blue;
+		}
+
+		#ScatterPlot1 circle {
+			clip-path: url(#clip);
+		}
+
+		#ScatterPlot2 circle {
+			clip-path: url(#clip);
+		}
+
+		.scatterBrush .extent {
+			stroke: #fff;
+			fill-opacity: .125;
+			shape-rendering: crispEdges;
+		}
+
+		#ScatterPlotMatrix .frame {
+			fill: transparent;
+		}
+
+		#ScatterPlotMatrix .axis path {
+			display: none;
+		}
+
+		#ScatterPlotMatrix .axis line {
+			opacity: 0.5;
+		}
+
+		#ScatterPlotMatrix .axis, #ScatterPlotMatrix .frame {
+			shape-rendering: crispEdges;
+		}
+
+		#ScatterPlotMatrix .frame {
+			fill: none;
+			stroke: #aaa;
+		}

@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+	<style>
+		g.radar .series polygon {
+			stroke-width: 2px;
+		}
+
+		g.radar .xaxes line {
+			stroke: grey;
+			stroke-width: 1px;
+		}
+
+		g.radar .yaxes polygon {
+			stroke: grey;
+			stroke-width: 1px;
+		}
+
+		g.radar .xaxisLabels {
+			stroke: grey;
+		}
+
+		g.radar .yaxisLabels {
+			stroke: grey;
+			font-size: 13px;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="MainPageStyleSheet.css">
+</head>
+<body>
+	<script src="Scripts/d3.min.js"></script>
+	<script src="Scripts/jquery-2.1.3.min.js"></script>
+	<script src="Scripts/d3.tip.v0.6.3.js"></script>
+	<script src="Scripts/DataTypes.js"></script>
+	<script src="Scripts/Health_Authorities.min.js"></script>
+	<script src="Scripts/Main.js"></script>
+	<script src="Scripts/Surgeries.js"></script>
+	<!--
+	<script src="Scripts/ScatterMatrixScript.js"></script>
+	
+	<script src="Scripts/ComparePageScript.js"></script>-->
+	
+	<script>
+	
+
+	</script>
+	
+	<script>
+	//Handler for .ready() called.
+	//The whole page is loaded == .ready
+	var windowWidth = $(window).width() - 10;
+	var windowHeight = ($(window).height());
+
+	/// Panels size
+	var noComparison = 2;
+	var widthPerElement = (windowWidth / noComparison);
+
+	var CompareScaleUp = 1; // Map
+	var CompareScaleMed = 1; // Scatter
+	var CompareScaleDown = 1; //BarChart
+
+	var heightPerElementUp = (windowHeight * CompareScaleUp) / (CompareScaleUp + CompareScaleMed + CompareScaleDown);
+	var heightPerElementMed = (windowHeight * CompareScaleMed) / (CompareScaleUp + CompareScaleMed + CompareScaleDown);
+	var heightPerElementDown = (windowHeight * CompareScaleDown) / (CompareScaleUp + CompareScaleMed + CompareScaleDown);
+
+
+	var mapBorder = { X: widthPerElement / 2, Y: heightPerElementUp / 2 + 50, R: Math.min(widthPerElement / 2.2, heightPerElementUp / 2.2) }; //object
+
+		$(document).ready(function () {
+
+			//Windows size relevant
+			$("#Comparison").width(windowWidth);
+			$("#Comparison").height(windowHeight);
+
+			var svg = d3.select("#Comparison");
+
+			var hospitalsWaitingTimes = FindHospitalsWaitingTime(AllSurgeries[0].name);
+			var doctorsWaitingTimes = FindDoctorsWaitingTime(AllSurgeries[0].name);
+			var selectedHospitals = [
+						regions[0].Hospitals[0],
+						regions[0].Hospitals[1],
+						regions[1].Hospitals[5],
+						regions[1].Hospitals[4]
+					];
+			var selectedDoctors = doctorsWaitingTimes.filter(function(d) { return selectedHospitals.indexOf(d.hospital) !== -1; } );
+			var selectedHospitalsWaiting = hospitalsWaitingTimes.filter(function(d) { return selectedHospitals.indexOf(d.hospital) !== -1; } );
+			//*
+			var bcMap = new BCMap({
+				container: svg.append("g").attr("transform", "translate(0, 0)"),
+				mapCenter: { x: 200, y: 200 },
+				mapRadius: 200,
+				arcLengthParameter: "noWaitingCase",
+				hospitals: selectedHospitals
+			})
+			.CalculateArcsData(selectedHospitalsWaiting)
+			.Draw(false);
+			//*/
+
+			var waitingTimeRange = [
+				0,//d3.min(selectedHospitalsWaiting, function(d) { return d.noWaitingCase; }),
+				d3.max(selectedHospitalsWaiting, function(d) { return d.noWaitingCase; })];
+
+			var nintyRange = [
+				0,//d3.min(selectedHospitalsWaiting, function(d) { return d.ninetyWeek; }),
+				d3.max(selectedHospitalsWaiting, function(d) { return d.ninetyWeek; })];
+
+			var fiftyRange = [
+				0,//d3.min(selectedHospitalsWaiting, function(d) { return d.fiftyWeek; }),
+				d3.max(selectedHospitalsWaiting, function(d) { return d.fiftyWeek; })];
+
+			var radar = new RadarChart({
+				container: svg.append("g").classed("radar", true).attr("transform", "translate(0, 400)"),
+				radius: 400,
+				center: {
+					x: 400,
+					y: 400
+				},
+				tickCount: 4
+			})
+			.MetaData([
+				{ name: "Waiting Time", max: waitingTimeRange[1], min: waitingTimeRange[0] },
+				{ name: "90%", max: nintyRange[1], min: nintyRange[0] },
+				{ name: "50%", max: fiftyRange[1], min: fiftyRange[0] }
+			])
+			.Data(selectedHospitalsWaiting.map(function (d, i) {
+				return {
+					"Waiting Time": d.noWaitingCase,
+					"90%": d.ninetyWeek,
+					"50%": d.fiftyWeek,
+					fill: "url(#pattern" + i + ")",//"rgba(0, 255, 0, 0.5)",
+					stroke: "green"
+				};
+			}))
+			.Keys(function (d) { return d.name; })
+			.Domain(function (d) { return [d.min, d.max]; })
+			.Draw();
+			
+			var docsBarChart = new DoctorsBarChart({
+				container: svg.append("g").classed("docsBar", true).attr("transform", "translate(800, 400)"),
+				width: 500,
+				height: 300
+			})
+			.Data(selectedDoctors)
+			.Draw();
+	});
+
+
+	</script>
+
+
+	<svg id="Comparison">
+		<defs>
+			<pattern id="pattern0" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+				<line x1="0" y1="0" x2="20" y2="0" style="stroke: green; stroke-width: 2px"></line>
+			</pattern>
+			<pattern id="pattern1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+				<line x1="0" y1="0" x2="0" y2="20" style="stroke: green; stroke-width: 2px"></line>
+			</pattern>
+			<pattern id="pattern2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+				<line x1="0" y1="0" x2="20" y2="20" style="stroke: green; stroke-width: 2px"></line>
+			</pattern>
+			<pattern id="pattern3" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+				<line x1="0" y1="20" x2="20" y2="0" style="stroke: green; stroke-width: 2px"></line>
+			</pattern>
+		</defs>
+		<g id="ComparisonMap"></g>
+		<g id="ComparisonScatterPlot"></g>
+		<g id="ComparisonDoctorsBarChart"></g>
+	</svg>
+
+</body>
+</html>

@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>WEST: BC Surgery Waiting Time</title>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<link rel="stylesheet" type="text/css" href="MainPageStyleSheet.css">
+</head>
+<body>
+	<script src="Scripts/d3.min.js"></script>
+	<script src="Scripts/jquery-2.1.3.min.js"></script>
+	<script src="Scripts/d3.tip.v0.6.3.js"></script>
+	<script src="Scripts/DataTypes.js"></script>
+	<script src="Scripts/Health_Authorities.min.js"></script>
+	<script src="Scripts/Surgeries.js"></script>
+	<script src="Scripts/ScatterMatrixScript.js"></script>
+	<script src="Scripts/Main.js"></script>
+	<script src="Scripts/MainPage.js"></script>
+
+	<script>
+		var purple = "rgb(78,48,115)";
+		var green = "#1D7325";
+		var yellow = "#FFB84D";
+		var blue = "#13586B";
+		var red = "rgb(149,39,37)";
+		var grey = "rgb(120,120,120)";
+
+	</script>
+
+	<svg id="Overview">
+		<g id="Map"></g>
+		<g id="ScatterPlotMatrix"></g>
+		<g id="BarChart"></g>
+		<g id="SelectionPanel">
+			<g id="items"></g>
+			<g id="BtnCompare" style="visibility: hidden">
+				<rect x="20" y="1" rx="5" ry="5" width="98" height="26"/>
+				<text x="40" y="19" style="font-size: 14px">Compare</text>
+			</g>
+		</g>
+	</svg>
+	
+	<svg id="Comparison" style="display: none;">
+		<defs>
+			<pattern id="pattern0" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+				<line x1="0" y1="0" x2="20" y2="0" style="stroke: green; stroke-width: 2px"></line>
+			</pattern>
+			<pattern id="pattern1" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+				<line x1="0" y1="0" x2="0" y2="20" style="stroke: green; stroke-width: 2px"></line>
+			</pattern>
+			<pattern id="pattern2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+				<line x1="0" y1="0" x2="20" y2="20" style="stroke: green; stroke-width: 2px"></line>
+			</pattern>
+			<pattern id="pattern3" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+				<line x1="0" y1="20" x2="20" y2="0" style="stroke: green; stroke-width: 2px"></line>
+			</pattern>
+		</defs>
+	</svg>
+
+	<div style="position: absolute; top: 6px; left:7px; width: 330px; height: 5px; font-size:11px; border:medium; border-style:solid; border-width:1px; border-color: #333333">
+		<div id="parent1">
+			<div id="title"><h1>WEST: BC Surgery Waiting Time</h1></div>
+		</div>
+		<!--<div>
+			<a href="Compare.html">Compare</a>
+		</div>-->
+		<div style="margin: auto;" id="surgeriesList"></div>
+		<div style="margin-top: 8px;" id="ScatterInteraction"></div>
+		<div id="parent2">
+			<div id="mapColorType">
+				Map:<br />
+				<input type="radio" name="colorType" value="population" />Population<br />
+				<input type="radio" name="colorType" value="households" />Households<br />
+				<input checked="checked" type="radio" name="colorType" value="colored" />Colored<br />
+			</div>
+			<div id="mapValueType">
+				Values On Map: <br />
+				<input checked="checked" type="radio" name="mapValues" value="caseWaiting" />Cases Waiting<br />
+				<input type="radio" name="mapValues" value="fiftyPercent" />50% Case Received<br />
+				<input type="radio" name="mapValues" value="nintyPercent" />90% Case Received<br />
+			</div>
+			<div id="legend" style="margin-top:8px;">
+				Legends:<br />
+				<table style="margin-top:3px;">
+					<tr><td><div style="background-color: #EC7A6C; width:10px; height:10px;"></div></td><td>Fraser</td></tr>
+					<tr><td><div style="background-color: #C2A6D1; width:10px; height:10px;"></div></td><td>Interior</td></tr>
+					<tr><td><div style="background-color: #FDC536; width:10px; height:10px;"></div></td><td>Northern</td></tr>
+					<tr><td><div style="background-color: #DBDAD6; width:10px; height:10px;"></div></td><td>Provincial</td></tr>
+					<tr><td><div style="background-color: #D6FF7D; width:10px; height:10px;"></div></td><td>Vancouver Coastal</td></tr>
+					<tr><td><div style="background-color: #65D0ED; width:10px; height:10px;"></div></td><td>Vancouver Island</td></tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	<!--<div><img src="image/population.png" height="100"/></div>-->
+	<!--<div style="position: absolute;">
+		<svg id="BCMap" height="500" width="1000" viewBox="-139.062305878596 -60.0057792217727 25.0091573479628 12.5">
+		</svg>
+	</div>-->
+	<!-- Start of StatCounter Code for Default Guide -->
+	<script type="text/javascript">
+		var sc_project = 8788694;
+		var sc_invisible = 1;
+		var sc_security = "edab272d";
+		var scJsHost = (("https:" == document.location.protocol) ? "https://secure." : "http://www.");
+		document.write("<sc" + "ript type='text/javascript' src='" + scJsHost + "statcounter.com/counter/counter.js'></" + "script>");
+	</script>
+	<noscript>
+		<div class="statcounter">
+			<a title="web counter" href="http://statcounter.com/"><img class="statcounter" src="http://c.statcounter.com/8788694/0/edab272d/1/" alt="web counter" /></a>
+		</div>
+	</noscript>
+
+	<script>
+	(function (i, s, o, g, r, a, m) {
+		i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+			(i[r].q = i[r].q || []).push(arguments)
+		}, i[r].l = 1 * new Date(); a = s.createElement(o),
+		m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+	})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+	ga('create', 'UA-62177327-1', 'auto');
+	ga('send', 'pageview');
+
+	</script>
+
+</body>
+</html>
