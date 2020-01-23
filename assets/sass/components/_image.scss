@@ -12,11 +12,13 @@
 		display: inline-block;
 		position: relative;
 
+	
 		img {
 			border-radius: _size(border-radius);
 			display: block;
 		}
 
+		
 		&.left,
 		&.right {
 			max-width: 40%;
